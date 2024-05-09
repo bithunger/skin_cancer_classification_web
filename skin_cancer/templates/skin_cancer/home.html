@@ -1,0 +1,119 @@
+{% extends 'layouts/master.html' %}
+{% block title %}Skin Cancer Detection Web-app{% endblock title %}
+{% load static %}
+{% block content %}
+
+<body class="g-sidenav-show bg-gray-100 virtual-reality"
+	style="background-image: url('{% static 'img/waves-gray.svg' %}') ; background-size: cover;">
+	<div class="mt-3">
+		<!-- Navbar -->
+		<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl bg-primary"
+			id="navbarBlur" data-scroll="false">
+			<div class="container-fluid py-1 px-3">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+						<li class="breadcrumb-item text-sm active"><a class="font-weight-bold text-white"
+								href="{% url 'home' %}">
+								<i class="font-weight-bold fas fa-home p-2"></i>Skin Cancer Detection Web-app</a></li>
+					</ol>
+				</nav>
+				<div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+					<div class="ms-md-auto pe-md-3 d-flex align-items-center">
+					</div>
+					<ul class="navbar-nav  justify-content-end">
+						{% if request.user.is_authenticated %}
+						<li class="nav-item px-3 d-flex align-items-center">
+							<a href="{% url 'dashboard' %}" class="nav-link text-white font-weight-bold px-0">
+								<i class="fa fa-tachometer me-sm-1"></i>
+								<span class="d-sm-inline d-none">Dashboard</span>
+							</a>
+						</li>
+						<li class="nav-item px-3 d-flex align-items-center">
+							<a href="{% url 'profile' %}" class="nav-link text-white font-weight-bold px-0">
+								<i class="fa fa-user me-sm-1"></i>
+								<span class="d-sm-inline d-none">{{ request.user.username }}</span>
+							</a>
+						</li>
+						<li class="nav-item d-flex align-items-center">
+							<a href="{% url 'sign-out' %}" class="nav-link text-white font-weight-bold px-0">
+								<i class="fa fa-sign-out me-sm-1"></i>
+								<span class="d-sm-inline d-none">Sign Out</span>
+							</a>
+						</li>
+						{% else %}
+						<li class="nav-item d-flex align-items-center">
+							<a href="{% url 'sign-in' %}" class="nav-link text-white font-weight-bold px-0">
+								<i class="fas fa-key me-sm-1"></i>
+								<span class="d-sm-inline d-none">Sign In</span>
+							</a>
+						</li>
+						<li class="nav-item px-3 d-flex align-items-center">
+							<a href="{% url 'sign-up' %}" class="nav-link text-white font-weight-bold px-0">
+								<i class="fa fa-user-plus me-sm-1"></i>
+								<span class="d-sm-inline d-none">Sign Up</span>
+							</a>
+						</li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- End Navbar -->
+	</div>
+
+	<div class="border-radius-xl mt-2 mx-4 position-relative">
+		<main class="main-content border-radius-lg">
+			<div class="section min-vh-85 position-relative transform-scale-0 transform-scale-md-7">
+				<div class="container">
+					<div class="text-center">
+						<div class="d-flex justify-content-center">
+							<div class="card-body p-3">
+								<div class="row">
+									<div class="col-12">
+										<div class="numbers">
+											<h1 class="text-primary">What is Skin Cancer?</h1>
+
+											<hr class="horizontal dark">
+
+											<p class="h5 mb-3">
+												Skin cancer is a disease that involves the growth of abnormal cells in your skin tissues. Normally, as skin cells grow old and die, new cells form to replace them. When this process doesn’t work as it should — like after exposure to ultraviolet (UV) light from the sun — cells grow more quickly. These cells may be noncancerous (benign), which don’t spread or cause harm. Or they may be cancerous.
+											</p>
+											<p class="h5 mb-3">
+												Skin cancer can spread to nearby tissue or other areas in your body if it’s not caught early. Fortunately, if skin cancer is identified and treated in early stages, most are cured. So, it’s important to talk with your healthcare provider if you think you have any signs of skin cancer.
+											</p>
+
+											<h1 class="text-primary">Symptoms and Causes</h1>
+
+											<hr class="horizontal dark">
+
+											<p class="h5 mb-3">
+												The most common warning sign of skin cancer is a change on your skin — typically a new growth or a change in an existing growth or mole. Skin cancer symptoms include: A new mole. Or a mole that changes in size, shape or color, or that bleeds. A pearly or waxy bump on your face, ears or neck.
+											</p>
+
+											<h4 class="mt-5 text-primary">Check your Skin Cancer is Bening or Malignant</h4>
+											
+											{% if parkinson_data %}
+												<a class="text-white" href="{% url 'user-parkinson-data' %}">
+													<button class="px-5 h5 btn btn-primary btn-sm ms-auto">Go</button>
+												</a>
+											{% else %}
+												<a class="text-white" href="{% url 'start-predict' %}">
+													<button class="px-5 h5 btn btn-primary btn-sm ms-auto">Go</button>
+												</a>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+	<div class="d-flex justify-content-center">
+		{% include "layouts/footer.html" %}
+	</div>
+</body>
+
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends 'layouts/master.html' %}
+{% block title %}Predict-Skin-Cancer - Skin Cancer Prediction Web-app{% endblock title %}
+{% load static %}
+{% block content %}
+<style>
+    .loading-overlay {
+        display: none;
+    }
+
+    .loading-spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        margin-top: 2px;
+        margin-right: 5px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+<div class="min-height-300 bg-primary position-absolute w-100"></div>
+{% include "layouts/dash-nav.html" %}
+<main class="main-content position-relative border-radius-lg ">
+    {% include "layouts/nav.html" %}
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <form action="{% url 'start-predict' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="card mb-4">
+                        <div class="card-header pb-0">
+                            <div class="d-flex align-items-center">
+                                <p class="mb-0">Skin Cancer Input Data</p>
+                                <p class="ms-auto">Image data</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <div class="d-flex justify-content-center">
+                                            {% if skin_cancer_data is False or skin_cancer_data is None %}
+                                            <label for="input_skin_image"
+                                                class="form-label float-right mb-0 d-none d-lg-block">Check New</label>
+                                            {% else %}
+                                            <label for="input_skin_image"
+                                                class="form-label float-right mb-0 d-none d-lg-block">Check
+                                                another</label>
+                                            {% endif %}
+                                        </div>
+                                        <hr class="horizontal dark">
+                                        <div class="d-flex justify-content-center">
+                                            <input name="input_skin_image"
+                                                class="form-control form-control-sm btn btn-sm mb-0 {% if skin_cancer_data is False or skin_cancer_data is None %}w-50{% endif %}"
+                                                id="input_skin_image" type="file" />
+                                        </div>
+
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <button id="startProcess" type="submit"
+                                            class="btn btn-primary btn-sm">Go</button>
+                                        <div id="loadingOverlay" class="loading-overlay">
+                                            <div class="loading-spinner"></div>
+                                            <strong id="msg"></strong>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div
+                                    class="col {% if skin_cancer_data is False or skin_cancer_data is None %}d-none{% endif %}">
+                                    <div class="d-flex justify-content-center">
+                                        <label for="formFileSm"
+                                            class="form-label float-right mb-0 d-none d-lg-block">Your image</label>
+                                    </div>
+                                    <hr class="horizontal dark">
+                                    <div class="card">
+                                        <img src="media/{{ skin_cancer_data.skin_image }}" alt="skin_image"
+                                            class="card-img-top rounded">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% include "layouts/footer.html" %}
+    </div>
+</main>
+<script>
+    const startProcessBtn = document.getElementById('startProcess');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    startProcessBtn.addEventListener('click', function () {
+        // Show loading overlay when process starts
+        loadingOverlay.style.display = 'flex';
+        loadingOverlay.style.justifyContent = 'evenly';
+        startProcessBtn.style.display = 'none';
+
+        const element = document.getElementById('msg');
+        element.innerText = 'This should just take a while longer';
+
+        // Simulate a process that takes some time (e.g., using setTimeout)
+        setTimeout(() => {
+            loadingOverlay.style.display = 'none';
+        }, 600000); // Simulating a 10 minute process
+    });
+
+</script>
+{% include "layouts/side-nav.html" %}
+
+{% endblock %}

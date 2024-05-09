@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report - Skin Cancer Detection Web-app</title>
+    <style>
+        main{
+            width: 70%;
+            margin: auto;
+            font-family: Tahoma, sans-serif;
+            color: black
+        }
+        section{
+            margin-top: 70px;
+        }
+        .title{
+            background-color: #5E72E4;
+            padding-top: 15px;
+            padding-bottom: 5px;
+            color: white;
+            letter-spacing: 1px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .profile{
+            border-bottom: 0.2px solid #344767;
+            padding-bottom: 5px;
+        }
+        .report{
+            margin-top: 20px;
+        }
+        table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        span{
+            font-weight: bold;
+        }
+        .table-head{
+            text-decoration: underline;
+            padding-bottom: 2px
+        }
+        td{
+            padding: 3px;
+        }
+        .footer{
+            text-align: center;
+            padding-top: 5em;
+        }
+        
+    </style>
+</head>
+<body>
+    <main>
+        <section class="container">
+            <div class="title">
+                <h1>Skin Cancer test report</h1>
+            </div>
+            <div class="profile">
+                <table>
+                    <tr>
+                        <td><span>Name:</span> {{ user.first_name }} {{ user.last_name }}</td>
+                        <td><span>Gender:</span>  {{ user.skinuser.gender }}</td>
+                        <td><span>Date:</span> {{ current_date }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="report">
+                <table class="">
+                    <tr>
+                        <td><span class="table-head">Test</span></td>
+                        <td><span class="table-head">Result</span></th>
+                    </tr>
+                    <tr>
+                        <td><span>Result</span></td>
+                        {% if skin_cancer_data %}
+                            {% if skin_cancer_data.is_benign %}
+                            <td style="color: green; font-weight: bold">Skin Cancer Benign</td>
+                            {% else %}
+                            <td style="color: red; font-weight: bold">Skin Cancer Malignant</td>
+                            {% endif %}
+                        {% else %}
+                        <td style="font-weight: bold">You have not checked for Skin Cancer yet!</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td><span>Method</span></td>
+                        <td>{{ predictive_model }}</td>
+                    </tr>
+                    <tr>
+                        <td><span>Accuracy</span></td>
+                        <td>{{ predictive_model.accuracy}}%</td>
+                    </tr>
+                    <tr>
+                        <td><span>Precision</span></td>
+                        <td>{{ predictive_model.precision}}%</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="footer">
+                <p><span>&#169;</span> Skin Cancer Detection Web-app - Developed by Tim-G - D-58.</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

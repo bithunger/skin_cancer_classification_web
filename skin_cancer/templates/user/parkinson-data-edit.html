@@ -1,0 +1,358 @@
+{% extends 'layouts/master.html' %}
+{% block title %}User-Parkinson-data - Parkinson Prediction Web-app{% endblock title %}
+{% load static %}
+{% block content %}
+
+<div class="min-height-300 bg-primary position-absolute w-100"></div>
+{% include "layouts/dash-nav.html" %}
+<main class="main-content position-relative border-radius-lg ">
+	{% include "layouts/nav.html" %}
+	<div class="container-fluid py-4">
+		<div class="row">
+			<div class="col-12">
+				<form action="user-parkinson-data" method="POST">
+					{% csrf_token %}
+
+					<div class="card mb-4">
+						<div class="card-header pb-0">
+							<div class="d-flex align-items-center">
+								<p class="mb-0">Edit Data</p>
+								<button type="submit" class="btn btn-primary btn-sm ms-auto">Save</button>
+							</div>
+						</div>
+						<div class="card-body">
+							{% if messages %}
+							<div class="messages">
+								{% for message in messages %}
+								{% if message.tags != 'success' %}
+								<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									<span class="text-white">{{ message }}</span>
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+								</div>
+								{% else %}
+								<div class="alert alert-success alert-dismissible fade show" role="alert">
+									<span class="text-white">{{ message }}</span>
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+								</div>
+								{% endif %}
+								{% endfor %}
+							</div>
+							{% endif %}
+
+
+
+							<p class="text-uppercase text-sm">Parkinson data Information</p>
+							{% comment %} <div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">MDVP:Fo(Hz) - Avg. v.
+											fundamental frq.</label>
+										<input name="fo" class="form-control" type="text">
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">MDVP:Fhi(Hz) - Avg.
+											v. fundamental frq.</label>
+										<input name="fhi" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">MDVP:Flo(Hz) - Min.
+											v. fundamental frq.</label>
+										<input name="flo" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input"
+											class="form-control-label">MDVP:Jitter(%)</label>
+										<input name="jitter" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input"
+											class="form-control-label">MDVP:Jitter(Abs)</label>
+										<input name="jitter_abs" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">MDVP:RAP</label>
+										<input name="rap" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">MDVP:PPQ</label>
+										<input name="ppq" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">Jitter:DDP</label>
+										<input name="ddp" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">MDVP:Shimmer</label>
+										<input name="shimmer" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input"
+											class="form-control-label">DVP:Shimmer(dB)</label>
+										<input name="shimmer_db" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">Shimmer:APQ3</label>
+										<input name="apq3" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">Shimmer:APQ5</label>
+										<input name="apq5" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">MDVP:APQ</label>
+										<input name="apq" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">Shimmer:DDA</label>
+										<input name="dda" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">NHR</label>
+										<input name="nhr" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">HNR</label>
+										<input name="hnr" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">RPDE</label>
+										<input name="rpde" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">DFA</label>
+										<input name="dfa" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">Spread1</label>
+										<input name="spread1" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">Spread2</label>
+										<input name="spread2" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">D2</label>
+										<input name="d2" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="example-text-input" class="form-control-label">PPE</label>
+										<input name="ppe" class="form-control" type="text">
+									</div>
+								</div>
+							</div> {% endcomment %}
+							<div class="row">
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="fo" value="{{ user_parkinson_data.fo }}"
+											placeholder="MDVP:Fo(Hz) - Avg. v. fundamental frq.">
+										<label>MDVP:Fo(Hz) - Avg. v. fundamental frq.</label>
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="fhi" value="{{ user_parkinson_data.fhi }}"
+											placeholder="MDVP:Fhi(Hz) - Avg. v. fundamental frq.">
+										<label>MDVP:Fhi(Hz) - Avg. v. fundamental frq.</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="flo" value="{{ user_parkinson_data.flo }}"
+											placeholder="MDVP:Flo(Hz) - Minimum vocal fundamental frequency">
+										<label>MDVP:Flo(Hz) - Min. v. fundamental frq.</label>
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="jitter" value="{{ user_parkinson_data.jitter }}"
+											placeholder="MDVP:Jitter(%)">
+										<label>MDVP:Jitter(%)</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="jitter_abs" value="{{ user_parkinson_data.jitter_abs }}"
+											placeholder="MDVP:Jitter(Abs)">
+										<label>MDVP:Jitter(Abs)</label>
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="rap" value="{{ user_parkinson_data.rap }}" placeholder="MDVP:RAP">
+										<label>MDVP:RAP</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="ppq" value="{{ user_parkinson_data.ppq }}" placeholder="MDVP:PPQ">
+										<label>MDVP:PPQ</label>
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="ddp" value="{{ user_parkinson_data.ddp }}" placeholder="Jitter:DDP">
+										<label>Jitter:DDP</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="shimmer" value="{{ user_parkinson_data.shimmer }}"
+											placeholder="MDVP:Shimmer">
+										<label>MDVP:Shimmer</label>
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="shimmer_db" value="{{ user_parkinson_data.shimmer_db }}"
+											placeholder="DVP:Shimmer(dB)">
+										<label>DVP:Shimmer(dB)</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="apq3" value="{{ user_parkinson_data.apq3 }}" placeholder="Shimmer:APQ3">
+										<label>Shimmer:APQ3</label>
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="apq5" value="{{ user_parkinson_data.apq5 }}" placeholder="Shimmer:APQ5">
+										<label>Shimmer:APQ5</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="apq" value="{{ user_parkinson_data.apq }}" placeholder="MDVP:APQ">
+										<label>MDVP:APQ</label>
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="dda" value="{{ user_parkinson_data.dda }}" placeholder="Shimmer:DDA">
+										<label>Shimmer:DDA</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="nhr" value="{{ user_parkinson_data.nhr }}" placeholder="NHR">
+										<label>NHR</label>
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="hnr" value="{{ user_parkinson_data.hnr }}" placeholder="HNR">
+										<label>HNR</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="rpde" value="{{ user_parkinson_data.rpde }}" placeholder="RPDE">
+										<label>RPDE</label>
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="dfa" value="{{ user_parkinson_data.dfa }}" placeholder="DFA">
+										<label>DFA</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="spread1" value="{{ user_parkinson_data.spread1 }}" placeholder="Spread1">
+										<label>Spread1</label>
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="spread2" value="{{ user_parkinson_data.spread2 }}" placeholder="Spread2">
+										<label>Spread2</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="d2" value="{{ user_parkinson_data.d2 }}" placeholder="D2">
+										<label>D2</label>
+									</div>
+								</div>
+								<div class="col">
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" name="ppe" value="{{ user_parkinson_data.ppe }}" placeholder="PPE">
+										<label>PPE</label>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+		{% include "layouts/footer.html" %}
+	</div>
+</main>
+{% include "layouts/side-nav.html" %}
+
+{% endblock %}

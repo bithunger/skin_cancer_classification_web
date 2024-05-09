@@ -1,0 +1,65 @@
+{% extends 'layouts/master.html' %}
+{% block title %}Report - Skin Cancer Detection Web-app{% endblock title %}
+{% load static %}
+{% block content %}
+<link href="{% static 'css/output.css' %}" rel="stylesheet" />
+    <main>
+        <section class="container">
+            <div class="title">
+                <div class="row">
+                    <a class="text-white" href="{% url 'dashboard' %}"><i class="fa fa-arrow-circle-left"></i> Dashboard</a>
+                </div>
+                <h2 class="text-white">Skin Cancer test report</h2>
+                <div class="row">
+                    <a class="text-white" href="{% url 'generate-pdf' %}">Download</a>
+                </div>
+            </div>
+            <div class="profile">
+                <table>
+                    <tr>
+                        <td><span>Name:</span> {{ user.first_name }} {{ user.last_name }}</td>
+                        <td><span>Gender:</span>  {{ user.skinuser.gender }}</td>
+                        <td><span>Date:</span> {{ current_date }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="report">
+                <table class="">
+                    <tr>
+                        <td><span class="table-head">Test</span></td>
+                        <td><span class="table-head">Result</span></th>
+                    </tr>
+                    <tr>
+                        <td><span>Result</span></td>
+                        
+                        {% if skin_cancer_data %}
+                            {% if skin_cancer_data.is_benign %}
+                            <td style="color: green; font-weight: bold">Skin Cancer Benign</td>
+                            {% else %}
+                            <td style="color: red; font-weight: bold">Skin Cancer Malignant</td>
+                            {% endif %}
+                        {% else %}
+                        <td style="font-weight: bold">You have not checked for Skin Cancer yet!</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td><span>Method</span></td>
+                        <td>{{ predictive_model}}</td>
+                    </tr>
+                    <tr>
+                        <td><span>Accuracy</span></td>
+                        <td>{{ predictive_model.accuracy}}%</td>
+                    </tr>
+                    <tr>
+                        <td><span>Precision</span></td>
+                        <td>{{ predictive_model.precision}}%</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="footer">
+                <p><span>&#169;</span> Skin Cancer Detection Web-app - Developed by Tim-G &#x268A; D-58</p>
+            </div>
+        </section>
+    </main>
+
+{% endblock %}

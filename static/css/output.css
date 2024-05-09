@@ -1,0 +1,51 @@
+a{
+    text-decoration: none
+}
+main{
+    width: 70%;
+    margin: auto;
+    font-family: Tahoma, sans-serif;
+    color: black
+}
+section{
+    margin-top: 70px;
+}
+.row{
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+.title{
+    background-color: #5E72E4;
+    padding: 5px 25px 5px 25px;
+    color: white;
+    letter-spacing: 1px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between
+}
+.profile{
+    border-bottom: 0.2px solid #344767;
+    padding: 10px;
+}
+.report{
+    margin-top: 30px;
+    margin-left: 300px
+}
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+span{
+    font-weight: bold;
+}
+.table-head{
+    text-decoration: underline;
+}
+td{
+    padding: 10px;
+}
+.footer{
+    text-align: center;
+    padding-top: 5em;
+}

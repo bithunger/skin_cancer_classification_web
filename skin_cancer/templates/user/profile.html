@@ -1,0 +1,181 @@
+{% extends 'layouts/master.html' %}
+{% block title %}User-Profile - Skin Cancer Prediction Web-app{% endblock title %}
+{% load static %}
+{% block content %}
+
+<div class="min-height-300 bg-primary position-absolute w-100"></div>
+<div class="position-absolute w-100 min-height-300 top-0"
+    style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
+    <span class="mask bg-primary opacity-6"></span>
+</div>
+{% include "layouts/dash-nav.html" %}
+<main class="main-content position-relative border-radius-lg ">
+    <div class="card shadow-lg mx-4 card-profile-bottom">
+        <div class="card-body p-3">
+            <div class="row gx-4">
+                <div class="col-auto">
+                    <div class="avatar avatar-xl position-relative">
+                        
+                        {% if request.user.skinuser.profile_image %}
+                        <img src="media/{{ request.user.skinuser.profile_image }}" alt="profile_image"
+                            class="w-100 border-radius-lg shadow-sm">
+                        {% else %}
+                        <img src="{% static 'img/user.png' %}" class="rounded-circle img-fluid border border-2 border-white">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-auto my-auto">
+                    <div class="h-100">
+                        <h5 class="mb-1">
+                            {{ request.user.first_name }} {{ request.user.last_name }}
+                        </h5>
+                        <p class="mb-0 font-weight-bold text-sm">
+                            {{ request.user.email }}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+                    <div class="nav-wrapper position-relative end-0">
+                        <ul class="nav nav-pills nav-fill p-1" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link mb-0 px-0 py-1 active d-flex align-items-center justify-content-center"
+                                    data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
+                                    {% if skin_cancer_data %}
+                                        {% if skin_cancer_data.is_benign %}
+                                        <i class="ni ni-app text-success"></i>
+                                        <span class="ms-2 font-weight-bold text-success">Skin Cancer Benign</span>
+                                        {% else %}
+                                        <i class="ni ni-app text-danger"></i>
+                                        <span class="ms-2 font-weight-bold text-danger">Skin Cancer Malignant</span>
+                                        {% endif %}
+                                    {% else %}
+                                    <i class="ni ni-app text-danger"></i>
+                                    <span class="ms-2 font-weight-bold text-danger">You have not checked for Skin Cancer yet!</span>
+                                    {% endif %}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-4">
+        <form action="{% url 'profile' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                            <div class="card-header pb-0">
+                                <div class="d-flex align-items-center">
+                                    <p class="mb-0">Edit Profile</p>
+                                    <button type="submit" class="btn btn-primary btn-sm ms-auto">Save</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-uppercase text-sm">User Information</p>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Username</label>
+                                            <input disabled class="form-control" type="text" value="{{ request.user.username }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Email address</label>
+                                            <input disabled class="form-control" type="email" value="{{ request.user.email }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">First name</label>
+                                            <input name="fname" class="form-control" type="text" value="{{ request.user.first_name }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Last name</label>
+                                            <input name="lname" class="form-control" type="text" value="{{ request.user.last_name }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Gender</label>
+                                            <input disabled class="form-control" type="text" value="{{ request.user.skinuser.gender }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="horizontal dark">
+                                <p class="text-uppercase text-sm">Contact Information</p>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Address</label>
+                                            <input name="address" class="form-control" type="text"
+                                                value="{{ request.user.skinuser.address }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">City</label>
+                                            <input name="city" class="form-control" type="text" value="{{ request.user.skinuser.city }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Country</label>
+                                            <input name="country" class="form-control" type="text" value="{{ request.user.skinuser.country }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Contact</label>
+                                            <input name="contact" class="form-control" type="text" value="{{ request.user.skinuser.contact }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-profile">
+                        <img src="{% static 'img/curved0.jpg' %}" alt="Image placeholder" class="card-img-top">
+                        <div class="row justify-content-center">
+                            <div class="col-4 col-lg-4 order-lg-2">
+                                <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
+                                    <a href="javascript:;">
+                                        {% if request.user.skinuser.profile_image %}
+                                        <img src="media/{{ request.user.skinuser.profile_image }}"
+                                            class="rounded-circle img-fluid border border-2 border-white">
+                                        {% else %}
+                                        <img src="{% static 'img/user.png' %}"
+                                            class="rounded-circle img-fluid border border-2 border-white">
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="text-center mt-4">
+                                <div class="d-flex justify-content-center">
+                                    <label for="formFileSm" class="form-label float-right mb-0 d-none d-lg-block">Change photo</label>
+                                </div>
+                                <hr class="horizontal dark">
+                                <div class="d-flex justify-content-center">
+                                    <input name="profile" class="form-control form-control-sm btn btn-sm float-right mb-0 d-none d-lg-block" id="formFileSm" type="file" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% include "layouts/footer.html" %}
+    </div>
+</main>
+{% include "layouts/side-nav.html" %}
+
+{% endblock %}
