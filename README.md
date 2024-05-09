@@ -23,11 +23,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 What things you need to install the software and how to install them:
 
-Clone the repository:
-git clone https://github.com/yourusername/skin-cancer-detection-app.git
+**Clone the repository:**
+git clone https://github.com/bithunger/skin_cancer_classification.git
 
-Install the required packages:
+**Install the required packages:**
 pip install -r requirements.txt
 
-Navigate to the project directory and run the development server:
+**Navigate to the project directory and run the development server:**
 python manage.py runserver
